@@ -68,7 +68,7 @@ function Login() {
           />
           <ErrorMessage>{errors.password?.message}</ErrorMessage>
 
-          <Button type="submit" style={{ maginTop: 75, marginBottom: 25 }}>
+          <Button type="submit" style={{ marginTop: 20, marginBottom: 25 }}>
             Sign In
           </Button>
         </form>

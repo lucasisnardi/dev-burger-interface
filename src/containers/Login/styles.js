@@ -51,7 +51,7 @@ export const Label = styled.p`
 `
 
 export const Input = styled.input`
-  width: 391.42px;
+  width: 250px;
   height: 38.32px;
   background: #ffffff;
   box-shadow: 3px 3px 10px rgba(74, 144, 226, 0.19);
