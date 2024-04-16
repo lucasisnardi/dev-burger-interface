@@ -37,19 +37,24 @@ function Login() {
   })
 
   const onSubmit = async clientData => {
-    const response = await toast.promise(
-      api.post('sessions', {
+    try {
+      const response = await api.post('sessions', {
         email: clientData.email,
         password: clientData.password
-      }),
-      {
-        pending: 'Verificando seus dados',
-        success: 'Seja bem vindo(a)',
-        error: 'Verifique seu e-mail e senha'
-      }
-    )
+      })
 
-    console.log(response)
+      if (response.status === 200) {
+        toast.success('Seja bem-vindo(a)')
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        toast.error('Email ou senha incorretos')
+      } else {
+        toast.error(
+          'Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.'
+        )
+      }
+    }
   }
 
   return (
