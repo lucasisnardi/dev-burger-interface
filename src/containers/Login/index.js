@@ -1,12 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
 import LoginImg from '../../assets/login-image.svg'
 import Logo from '../../assets/logo.svg'
 import Button from '../../components/Button'
+import { useUser } from '../../hooks/UserContext'
 import api from '../../services/api'
 import {
   Container,
@@ -19,6 +21,9 @@ import {
 } from './styles'
 
 function Login() {
+  const history = useHistory()
+  const { putUserData } = useUser()
+
   const schema = Yup.object().shape({
     email: Yup.string()
       .email('Digite um e-mail válido')
@@ -37,24 +42,23 @@ function Login() {
   })
 
   const onSubmit = async clientData => {
-    try {
-      const response = await api.post('sessions', {
+    const { data } = await toast.promise(
+      api.post('sessions', {
         email: clientData.email,
         password: clientData.password
-      })
+      }),
+      {
+        pending: 'Verificando seus dados',
+        success: 'Seja bem vindo(a)',
+        error: 'Verifique seu e-mail e senha'
+      }
+    )
 
-      if (response.status === 200) {
-        toast.success('Seja bem-vindo(a)')
-      }
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        toast.error('Email ou senha incorretos')
-      } else {
-        toast.error(
-          'Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.'
-        )
-      }
-    }
+    putUserData(data)
+
+    setTimeout(() => {
+      history.push('/')
+    }, 1000)
   }
 
   return (
@@ -86,7 +90,10 @@ function Login() {
           </Button>
         </form>
         <SignInLink>
-          Não possui conta ? <a>Sign Up</a>
+          Não possui conta?{' '}
+          <Link style={{ color: 'white' }} to="/cadastro">
+            Sign Up
+          </Link>
         </SignInLink>
       </ContainerItens>
     </Container>
