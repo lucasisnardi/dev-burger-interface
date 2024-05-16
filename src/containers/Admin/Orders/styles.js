@@ -17,7 +17,7 @@ export const ProductsImg = styled.img`
 export const ReactSelectStyle = styled(ReactSelect)`
   width: 250px;
 
-  .css-Is2u09g-control {
+  .css-13cymwt-control {
     cursor: pointer;
   }
 `
