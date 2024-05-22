@@ -11,10 +11,17 @@ import { ErrorMessage } from '../../../components'
 import api from '../../../services/api'
 import { Container, Label, Input, ButtonStyles, LabelUpload } from './styles'
 
-function NewProduct() {
+function EditProduct() {
   const [fileName, setFileName] = useState(null)
   const [categories, setCategories] = useState([])
-  const { push } = useHistory()
+  const {
+    push,
+    location: {
+      state: { product }
+    }
+  } = useHistory()
+
+  console.log(product)
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Digite o nome do produto'),
@@ -129,4 +136,4 @@ function NewProduct() {
   )
 }
 
-export default NewProduct
+export default EditProduct
